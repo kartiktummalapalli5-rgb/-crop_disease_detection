@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Crop Detection"
+description = "A field intelligence website for reviewing crop imagery, detecting plant health issues, and monitoring agricultural conditions through a focused visual dashboard."
+version = "1.0.0"
+id = "artifacts/crop-detection"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23246
+
+[services.development]
+run = "pnpm --filter @workspace/crop-detection run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/crop-detection", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/crop-detection/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23246"
+BASE_PATH = "/"
